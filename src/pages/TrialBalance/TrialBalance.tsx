@@ -66,7 +66,7 @@ const TrialBalance: React.FC<IProps> = () => {
             </TableHead>
             <TableBody>
               {entries.map((entry, i) => (
-                <TableRow key={uuid()}>
+                <TableRow key={i}>
                   <TableCell width={50}>
                     <IconButton color="error" onClick={() => deleteEntry(entry.id)}>
                       <RemoveCircleOutlineIcon />

@@ -36,7 +36,7 @@ const GeneralLedger: React.FC<IProps> = () => {
     totalDebit,
     updateDebit,
   } = useEntry();
-
+console.log(entries)
   return (
     <div className={classes.root}>
       <Container>
@@ -320,7 +320,7 @@ const GeneralLedger: React.FC<IProps> = () => {
               <TableRow>
                 <TableCell colSpan={4}>
                   <div className="center">
-                    <IconButton onClick={() => add(ENTRY_TYPE.EQUITY)}>
+                    <IconButton onClick={() => add(ENTRY_TYPE.REVENUE)}>
                       <AddCircleOutlineIcon fontSize="large" />
                     </IconButton>
                   </div>

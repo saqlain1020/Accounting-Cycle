@@ -23,6 +23,7 @@ export interface UpdateData {
   credit?: number;
   date?: Date;
   id: number;
+  type?: EntryType;
 }
 
 export type EntryType = "Asset" | "Liability" | "Expense" | "Equity" | "Revenue";

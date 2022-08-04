@@ -13,8 +13,8 @@ const ENTRY_TYPE: {
   EXPENSE: EntryType;
 } = {
   ASSET: "Asset",
-  LIABILITY: "Liability",
   EQUITY: "Equity",
+  LIABILITY: "Liability",
   REVENUE: "Revenue",
   EXPENSE: "Expense",
 };
@@ -25,6 +25,7 @@ const useEntry = () => {
   const dispatch = useAppDispatch();
   const modifiedEntries = React.useMemo(() => entries.map((item, i) => ({ ...item, id: i })), [entries]);
   const { notifyError } = useNotify();
+
   const totalDebit = React.useMemo(() => {
     let total = 0;
     entries.forEach((entry) => {
@@ -32,6 +33,7 @@ const useEntry = () => {
     });
     return total;
   }, [entries]);
+
   const totalCredit = React.useMemo(() => {
     let total = 0;
     entries.forEach((entry) => {
@@ -55,7 +57,9 @@ const useEntry = () => {
   };
 
   const updateDescription = (index: number, description: string) => {
-    dispatch(updateEntry({ id: index, description }));
+    const type = entryNames.find((ele) => ele.name === description)?.type;
+    if (type) dispatch(updateEntry({ id: index, description, type }));
+    else dispatch(updateEntry({ id: index, description }));
   };
   const updateDebit = (index: number, debit: number) => {
     dispatch(updateEntry({ id: index, debit }));
