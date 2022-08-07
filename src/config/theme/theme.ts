@@ -7,26 +7,15 @@ import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 //   }
 // }
 
-// declare module "@mui/material/styles" {
-//   interface Theme {
-//     textShadows: {
-//       primary: string;
-//       secondary: string;
-//       white: string;
-//     };
-
-//     fonts: string[];
-//   }
-//   // allow configuration using `createTheme`
-//   interface ThemeOptions {
-//     textShadows?: {
-//       primary?: string;
-//       secondary?: string;
-//       white?: string;
-//     };
-//     fonts?: string[];
-//   }
-// }
+declare module "@mui/material/styles" {
+  interface Theme {
+    boxShadows: string[];
+  }
+  //   // allow configuration using `createTheme`
+  interface ThemeOptions {
+    boxShadows: string[];
+  }
+}
 
 let lightTheme = createTheme({
   palette: {
@@ -82,6 +71,7 @@ let lightTheme = createTheme({
       },
     },
   },
+  boxShadows: ["0px 5px 16px rgba(25,25,50,0.1)"],
 });
 
 lightTheme = responsiveFontSizes(lightTheme);
@@ -140,6 +130,7 @@ let darkTheme = createTheme({
       },
     },
   },
+  boxShadows: ["0px 10px 25px rgba(255,255,255,0.1)"],
 });
 
 darkTheme = responsiveFontSizes(darkTheme);

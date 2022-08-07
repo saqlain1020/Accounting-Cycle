@@ -6,12 +6,13 @@ import storage from "redux-persist/lib/storage";
 import settingsReducer from "./settings/settingsReducer";
 import accountsReducer from "./accounts/accountsReducer";
 import entriesReducer from "./entries/entriesReducer";
+import adjustingEntriesReducer from "./adjustingEntries/adjustingEntriesReducer";
 
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
-  whitelist: ["settings", "entries"],
+  whitelist: ["settings", "entries","adjustingEntries"],
 };
 
 const rootReducer = combineReducers({
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   settings: settingsReducer,
   accounts: accountsReducer,
   entries: entriesReducer,
+  adjustingEntries: adjustingEntriesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -97,7 +97,7 @@ const TrialBalance: React.FC<IProps> = () => {
                       size="small"
                       fullWidth
                       type="number"
-                      value={entry.debit}
+                      value={entry.debit === 0 ? "" : entry.debit}
                       onChange={(e) => updateDebit(entry.id, Number(e.target.value))}
                     />
                   </TableCell>
@@ -106,7 +106,7 @@ const TrialBalance: React.FC<IProps> = () => {
                       size="small"
                       fullWidth
                       type="number"
-                      value={entry.credit}
+                      value={entry.credit === 0 ? "" : entry.credit}
                       onChange={(e) => updateCredit(entry.id, Number(e.target.value))}
                     />
                   </TableCell>

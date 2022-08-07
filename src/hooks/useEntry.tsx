@@ -2,8 +2,14 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "src/state";
 import { addEntry, removeEntry, updateEntry, addEntryName, removeEntryName } from "src/state/entries/entriesReducer";
+import {
+  addAdjustingEntry,
+  removeAdjustingEntry,
+  updateAdjustingEntry,
+} from "src/state/adjustingEntries/adjustingEntriesReducer";
 import { Entry, EntryType } from "src/state/entries/types";
 import useNotify from "./useNotify";
+import { AdjustingEntry, UpdateAdjustingData } from "src/state/adjustingEntries/types";
 
 const ENTRY_TYPE: {
   ASSET: EntryType;
@@ -21,9 +27,14 @@ const ENTRY_TYPE: {
 
 const useEntry = () => {
   const entries = useSelector((state: RootState) => state.entries.entries);
+  const adjustingEntries = useSelector((state: RootState) => state.adjustingEntries.entries);
   const entryNames = useSelector((state: RootState) => state.entries.entryNames);
   const dispatch = useAppDispatch();
   const modifiedEntries = React.useMemo(() => entries.map((item, i) => ({ ...item, id: i })), [entries]);
+  const modifiedAdjustingEntries = React.useMemo(
+    () => adjustingEntries.map((item, i) => ({ ...item, id: i })),
+    [adjustingEntries]
+  );
   const { notifyError } = useNotify();
 
   const totalDebit = React.useMemo(() => {
@@ -82,15 +93,42 @@ const useEntry = () => {
 
   const _removeEntryName = (str: string) => {
     let item = entries.find((item) => item.description.toLowerCase() === str.toLowerCase());
-    if (item) {
+    let itemadjusting = adjustingEntries.find(
+      (item) => item.name1.toLowerCase() === str.toLowerCase() || item.name2.toLowerCase() === str.toLowerCase()
+    );
+    if (item || itemadjusting) {
       notifyError("First delete entry from ledger");
     } else {
       dispatch(removeEntryName(str));
     }
   };
 
+  const _addAdjustingEntry = () => {
+    let entry: AdjustingEntry = {
+      credit: 0,
+      debit: 0,
+      description: "Entry Description",
+      name1: entryNames[0].name,
+      name2: entryNames[1].name,
+      date: new Date(),
+    };
+    dispatch(addAdjustingEntry(entry));
+  };
+
+  const _removeAdjustingEntry = (index: number) => {
+    dispatch(removeAdjustingEntry(index));
+  };
+
+  const updateAdjustingDate = (index: number, date: Date) => {
+    dispatch(updateAdjustingEntry({ id: index, date }));
+  };
+  const _updateAdjustingEntry = (data: UpdateAdjustingData) => {
+    dispatch(updateAdjustingEntry({ ...data }));
+  };
+
   return {
     entries: modifiedEntries,
+    adjustingEntries: modifiedAdjustingEntries,
     add,
     deleteEntry,
     ENTRY_TYPE,
@@ -103,6 +141,10 @@ const useEntry = () => {
     entryNames,
     addEntryName: _addEntryName,
     removeEntryName: _removeEntryName,
+    addAdjustingEntry: _addAdjustingEntry,
+    removeAdjustingEntry: _removeAdjustingEntry,
+    updateAdjustingDate,
+    updateAdjustingEntry: _updateAdjustingEntry,
   };
 };
 
