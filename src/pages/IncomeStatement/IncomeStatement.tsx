@@ -66,10 +66,10 @@ const IncomeStatement: React.FC<IProps> = () => {
                     <Typography>{entry.name}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography>{entry.valueType === "debit" && entry.value}</Typography>
+                    <Typography>{entry.valueType === "debit" && entry.value.toLocaleString()}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography>{entry.valueType === "credit" && entry.value}</Typography>
+                    <Typography>{entry.valueType === "credit" && entry.value.toLocaleString()}</Typography>
                   </TableCell>
                 </TableRow>
               ))}
@@ -86,10 +86,10 @@ const IncomeStatement: React.FC<IProps> = () => {
                     <Typography>{entry.name}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography>{entry.valueType === "debit" && entry.value}</Typography>
+                    <Typography>{entry.valueType === "debit" && entry.value.toLocaleString()}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography>{entry.valueType === "credit" && entry.value}</Typography>
+                    <Typography>{entry.valueType === "credit" && entry.value.toLocaleString()}</Typography>
                   </TableCell>
                 </TableRow>
               ))}
@@ -100,10 +100,10 @@ const IncomeStatement: React.FC<IProps> = () => {
                   </Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="h6">{results.type === "credit" && results.total}</Typography>
+                  <Typography variant="h6">{results.type === "credit" && results.total.toLocaleString()}</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="h6">{results.type === "debit" && results.total}</Typography>
+                  <Typography variant="h6">{results.type === "debit" && results.total.toLocaleString()}</Typography>
                 </TableCell>
               </TableRow>
             </TableBody>

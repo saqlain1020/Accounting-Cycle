@@ -76,20 +76,20 @@ const AdjustedTrialBalance: React.FC<IProps> = () => {
                     <Typography>{entry.name}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography>{entry.valueType === "debit" && entry.value}</Typography>
+                    <Typography>{entry.valueType === "debit" && entry.value.toLocaleString()}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography>{entry.valueType === "credit" && entry.value}</Typography>
+                    <Typography>{entry.valueType === "credit" && entry.value.toLocaleString()}</Typography>
                   </TableCell>
                 </TableRow>
               ))}
-              <TableRow sx={{borderTop:"2px solid grey"}}>
+              <TableRow sx={{ borderTop: "2px solid grey" }}>
                 <TableCell> </TableCell>
                 <TableCell>
-                  <Typography variant="h5">{totalDebit}</Typography>
+                  <Typography variant="h5">{totalDebit.toLocaleString()}</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="h5">{totalCredit}</Typography>
+                  <Typography variant="h5">{totalCredit.toLocaleString()}</Typography>
                 </TableCell>
               </TableRow>
             </TableBody>
