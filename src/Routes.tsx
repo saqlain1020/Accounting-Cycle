@@ -5,6 +5,7 @@ import AdjustedTrialBalance from "./pages/AdjustedTrialBalance/AdjustedTrialBala
 import AdjustingEntries from "./pages/AdjustingEntries/AdjustingEntries";
 import Home from "./pages/Home/Home";
 import IncomeStatement from "./pages/IncomeStatement/IncomeStatement";
+import StatementOfEquity from "./pages/StatementOfEquity/StatementOfEquity";
 import Test from "./pages/Test/Test";
 import TrialBalance from "./pages/TrialBalance/TrialBalance";
 
@@ -20,6 +21,7 @@ const Routes: React.FC<Props> = () => {
         <Route path="/adjusting-entries" element={<AdjustingEntries />} />
         <Route path="/adjusted-trial-balance" element={<AdjustedTrialBalance />} />
         <Route path="/income-statement" element={<IncomeStatement />} />
+        <Route path="/statement-of-equity" element={<StatementOfEquity />} />
         <Route path="/test" element={<Test />} />
         {/* <Route path="*" element={<NotFound />} /> */}
       </Switch>
@@ -47,6 +49,10 @@ export const routesData = [
   {
     name: "Income Statement",
     path: "/income-statement",
+  },
+  {
+    name: "Statement Of Equity",
+    path: "/statement-of-equity",
   },
   {
     name: "Test",
