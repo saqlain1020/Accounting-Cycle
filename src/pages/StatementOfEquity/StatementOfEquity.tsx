@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import useEntry from "src/hooks/useEntry";
-import { createAdjustedTrialBalanceEntries, incomeStatementCalculation } from "src/utils";
+import { calculateEndingCapital } from "src/utils";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -24,33 +24,10 @@ const StatementOfEquity: React.FC<IProps> = () => {
   const classes = useStyles();
   const { entries, adjustingEntries, entryNames } = useEntry();
 
-  const allEntries = React.useMemo(
-    () => createAdjustedTrialBalanceEntries(entries, adjustingEntries, entryNames),
+  const { capitalEntries, drawingEntries, endingCapital, total, totalType } = React.useMemo(
+    () => calculateEndingCapital(entries, adjustingEntries, entryNames),
     [entries, adjustingEntries, entryNames]
   );
-
-  const capitalEntries = React.useMemo(() => allEntries.filter((_) => _.type === "Equity"), [allEntries]);
-  const drawingEntries = React.useMemo(() => allEntries.filter((_) => _.type === "Drawing"), [allEntries]);
-
-  const { total, type: totalType } = React.useMemo(
-    () => incomeStatementCalculation(entries, adjustingEntries, entryNames),
-    [entries, adjustingEntries, entryNames]
-  );
-
-  const endingCapital = React.useMemo(() => {
-    let ans = 0;
-    capitalEntries.forEach((entry, i) => {
-      if (entry.valueType === "credit") ans += entry.value;
-      else ans -= entry.value;
-    });
-    if (totalType === "credit") ans += total;
-    else ans -= total;
-    drawingEntries.forEach((entry, i) => {
-      if (entry.valueType === "credit") ans += entry.value;
-      else ans -= entry.value;
-    });
-    return ans;
-  }, [capitalEntries, total, totalType, drawingEntries]);
 
   return (
     <div className={classes.root}>

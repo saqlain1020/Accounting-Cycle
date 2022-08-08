@@ -71,10 +71,8 @@ export const incomeStatementCalculation = (
   entryNames: EntryName[]
 ) => {
   let res = createAdjustedTrialBalanceEntries(trialBalanceEntries, adjustingEntries, entryNames);
-  let revenueNames = entryNames.filter((_) => _.type === "Revenue");
-  let expenseNames = entryNames.filter((_) => _.type === "Expense");
-  let revenues = res.filter((_) => revenueNames.some((i) => i.name === _.name));
-  let expenses = res.filter((_) => expenseNames.some((i) => i.name === _.name));
+  let revenues = res.filter((_) => _.type === "Revenue");
+  let expenses = res.filter((_) => _.type === "Expense");
   let total = revenues.concat(expenses).reduce((prev, curr) => {
     if (curr.valueType === "credit") {
       return prev - curr.value;
@@ -87,6 +85,46 @@ export const incomeStatementCalculation = (
     expenses,
     total: Math.abs(total),
     type: Math.sign(total) === -1 ? "credit" : "debit",
+    allEntries: res,
   };
   return obj;
+};
+
+export const calculateEndingCapital = (
+  trialBalanceEntries: Entry[],
+  adjustingEntries: AdjustingEntry[],
+  entryNames: EntryName[]
+) => {
+  const {
+    total,
+    type: totalType,
+    allEntries,
+    expenses,
+    revenues,
+  } = incomeStatementCalculation(trialBalanceEntries, adjustingEntries, entryNames);
+  const capitalEntries = allEntries.filter((_) => _.type === "Equity");
+  const drawingEntries = allEntries.filter((_) => _.type === "Drawing");
+
+  let ans = 0;
+  capitalEntries.forEach((entry, i) => {
+    if (entry.valueType === "credit") ans += entry.value;
+    else ans -= entry.value;
+  });
+  if (totalType === "credit") ans += total;
+  else ans -= total;
+  drawingEntries.forEach((entry, i) => {
+    if (entry.valueType === "credit") ans += entry.value;
+    else ans -= entry.value;
+  });
+
+  return {
+    endingCapital: ans,
+    total,
+    totalType,
+    capitalEntries,
+    drawingEntries,
+    allEntries,
+    expenses,
+    revenues,
+  };
 };
