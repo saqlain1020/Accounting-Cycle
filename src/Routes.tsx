@@ -3,7 +3,6 @@ import { Route, Routes as Switch } from "react-router-dom";
 import AddAccount from "./components/AddAccount/AddAccount";
 import AdjustedTrialBalance from "./pages/AdjustedTrialBalance/AdjustedTrialBalance";
 import AdjustingEntries from "./pages/AdjustingEntries/AdjustingEntries";
-import GeneralLedger from "./pages/GeneralLedger/GeneralLedger";
 import Home from "./pages/Home/Home";
 import IncomeStatement from "./pages/IncomeStatement/IncomeStatement";
 import Test from "./pages/Test/Test";
@@ -18,10 +17,10 @@ const Routes: React.FC<Props> = () => {
       <Switch>
         <Route path="/" element={<Home />} />
         <Route path="/trial-balance" element={<TrialBalance />} />
-        <Route path="/general-ledger" element={<GeneralLedger />} />
         <Route path="/adjusting-entries" element={<AdjustingEntries />} />
         <Route path="/adjusted-trial-balance" element={<AdjustedTrialBalance />} />
         <Route path="/income-statement" element={<IncomeStatement />} />
+        <Route path="/test" element={<Test />} />
         {/* <Route path="*" element={<NotFound />} /> */}
       </Switch>
       <AddAccount />
@@ -50,7 +49,8 @@ export const routesData = [
     path: "/income-statement",
   },
   {
-    name: "General Ledger",
-    path: "/general-ledger",
+    name: "Test",
+    path: "/test",
   },
+  
 ];
