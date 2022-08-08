@@ -28,7 +28,6 @@ export const createAdjustedTrialBalanceEntries = (
     let n2 = ele.name2;
     let debitN1 = Number(ele.debit);
     let creditN2 = Number(ele.credit);
-    console.log(n1, n2, debitN1, creditN2, JSON.parse(JSON.stringify(adjustings)));
     adjustings[n1] = {
       debit: adjustings[n1]?.debit ? adjustings[n1]?.debit! + debitN1 : debitN1,
     };

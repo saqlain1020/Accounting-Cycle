@@ -5,6 +5,7 @@ import AdjustedTrialBalance from "./pages/AdjustedTrialBalance/AdjustedTrialBala
 import AdjustingEntries from "./pages/AdjustingEntries/AdjustingEntries";
 import GeneralLedger from "./pages/GeneralLedger/GeneralLedger";
 import Home from "./pages/Home/Home";
+import IncomeStatement from "./pages/IncomeStatement/IncomeStatement";
 import Test from "./pages/Test/Test";
 import TrialBalance from "./pages/TrialBalance/TrialBalance";
 
@@ -20,6 +21,7 @@ const Routes: React.FC<Props> = () => {
         <Route path="/general-ledger" element={<GeneralLedger />} />
         <Route path="/adjusting-entries" element={<AdjustingEntries />} />
         <Route path="/adjusted-trial-balance" element={<AdjustedTrialBalance />} />
+        <Route path="/income-statement" element={<IncomeStatement />} />
         {/* <Route path="*" element={<NotFound />} /> */}
       </Switch>
       <AddAccount />
@@ -42,6 +44,10 @@ export const routesData = [
   {
     name: "Adjusted Trial Balance",
     path: "/adjusted-trial-balance",
+  },
+  {
+    name: "Income Statement",
+    path: "/income-statement",
   },
   {
     name: "General Ledger",

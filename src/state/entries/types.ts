@@ -26,6 +26,6 @@ export interface UpdateData {
   type?: EntryType;
 }
 
-export type EntryType = "Asset" | "Liability" | "Expense" | "Equity" | "Revenue";
+export type EntryType = "Asset" | "Liability" | "Expense" | "Equity" | "Revenue" | "Drawing";
 
-export const ENTRY_TYPES: EntryType[] = ["Asset", "Liability", "Expense", "Equity", "Revenue"];
+export const ENTRY_TYPES: EntryType[] = ["Asset", "Liability", "Expense", "Equity", "Revenue", "Drawing"];
