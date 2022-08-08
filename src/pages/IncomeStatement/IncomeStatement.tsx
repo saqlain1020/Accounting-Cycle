@@ -2,24 +2,17 @@ import React from "react";
 import { makeStyles } from "@mui/styles";
 import {
   Container,
-  IconButton,
-  MenuItem,
-  Select,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
   Theme,
   Typography,
 } from "@mui/material";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import useEntry from "src/hooks/useEntry";
-import { v4 as uuid } from "uuid";
-import { createAdjustedTrialBalanceEntries } from "src/utils";
+import { incomeStatementCalculation } from "src/utils";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -31,32 +24,10 @@ const IncomeStatement: React.FC<IProps> = () => {
   const classes = useStyles();
   const { entries, adjustingEntries, entryNames } = useEntry();
 
-  const results = React.useMemo(() => {
-    let res = createAdjustedTrialBalanceEntries(entries, adjustingEntries, entryNames);
-    let revenueNames = entryNames.filter((_) => _.type === "Revenue");
-    let expenseNames = entryNames.filter((_) => _.type === "Expense");
-    let revenues = res.filter((_) => revenueNames.some((i) => i.name === _.name));
-    let expenses = res.filter((_) => expenseNames.some((i) => i.name === _.name));
-    let total = revenues.concat(expenses).reduce((prev, curr) => {
-      if (curr.valueType === "credit") {
-        return prev - curr.value;
-      } else {
-        return curr.value + prev;
-      }
-    }, 0);
-    let obj = {
-      revenues,
-      expenses,
-      total: Math.abs(total),
-      type: Math.sign(total) === -1 ? "credit" : "debit",
-    };
-    return obj;
-  }, [entries, adjustingEntries, entryNames]);
-
-  //   const totalCredit = React.useMemo(
-  //     () => results.filter((_) => _.valueType === "credit").reduce((prev, curr) => prev + curr.value, 0),
-  //     [results]
-  //   );
+  const results = React.useMemo(
+    () => incomeStatementCalculation(entries, adjustingEntries, entryNames),
+    [entries, adjustingEntries, entryNames]
+  );
 
   return (
     <div className={classes.root}>
@@ -123,7 +94,11 @@ const IncomeStatement: React.FC<IProps> = () => {
                 </TableRow>
               ))}
               <TableRow sx={{ borderTop: "2px solid grey" }}>
-                <TableCell><Typography><b>{results.type === "debit" ? "Net Loss" : "Net Gain"}</b></Typography></TableCell>
+                <TableCell>
+                  <Typography>
+                    <b>{results.type === "debit" ? "Net Loss" : "Net Gain"}</b>
+                  </Typography>
+                </TableCell>
                 <TableCell>
                   <Typography variant="h6">{results.type === "credit" && results.total}</Typography>
                 </TableCell>

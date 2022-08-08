@@ -61,8 +61,32 @@ export const createAdjustedTrialBalanceEntries = (
     // @ts-ignore
     results.push(obj);
   });
-  results = results.filter((_)=>_.valueType==="debit").concat(results.filter((_)=>_.valueType==="credit"))
+  results = results.filter((_) => _.valueType === "debit").concat(results.filter((_) => _.valueType === "credit"));
   return results;
 };
 
-export {};
+export const incomeStatementCalculation = (
+  trialBalanceEntries: Entry[],
+  adjustingEntries: AdjustingEntry[],
+  entryNames: EntryName[]
+) => {
+  let res = createAdjustedTrialBalanceEntries(trialBalanceEntries, adjustingEntries, entryNames);
+  let revenueNames = entryNames.filter((_) => _.type === "Revenue");
+  let expenseNames = entryNames.filter((_) => _.type === "Expense");
+  let revenues = res.filter((_) => revenueNames.some((i) => i.name === _.name));
+  let expenses = res.filter((_) => expenseNames.some((i) => i.name === _.name));
+  let total = revenues.concat(expenses).reduce((prev, curr) => {
+    if (curr.valueType === "credit") {
+      return prev - curr.value;
+    } else {
+      return curr.value + prev;
+    }
+  }, 0);
+  let obj = {
+    revenues,
+    expenses,
+    total: Math.abs(total),
+    type: Math.sign(total) === -1 ? "credit" : "debit",
+  };
+  return obj;
+};
