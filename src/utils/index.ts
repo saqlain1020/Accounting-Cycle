@@ -128,3 +128,36 @@ export const calculateEndingCapital = (
     revenues,
   };
 };
+
+export const createBalanceSheetData = (
+  trialBalanceEntries: Entry[],
+  adjustingEntries: AdjustingEntry[],
+  entryNames: EntryName[]
+) => {
+  const { allEntries, endingCapital, ...rest } = calculateEndingCapital(
+    trialBalanceEntries,
+    adjustingEntries,
+    entryNames
+  );
+  let assets = allEntries.filter((_) => _.type === "Asset");
+  let liabilities = allEntries.filter((_) => _.type === "Liability");
+  let assetsTotal = assets.reduce((prev, curr) => {
+    if (curr.valueType === "credit") return prev - curr.value;
+    return curr.value + prev;
+  }, 0);
+  let liabilitiesEquityTotal = liabilities.reduce((prev, curr) => {
+    if (curr.valueType === "debit") return prev - curr.value;
+    return curr.value + prev;
+  }, 0);
+  liabilitiesEquityTotal += endingCapital;
+
+  return {
+    ...rest,
+    assets,
+    liabilities,
+    endingCapital,
+    allEntries,
+    assetsTotal,
+    liabilitiesEquityTotal,
+  };
+};

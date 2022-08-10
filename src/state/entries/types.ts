@@ -13,7 +13,7 @@ export interface Entry {
   type: EntryType;
   debit: number;
   credit: number;
-  date?: Date;
+  date?: Date | string;
   id?: string | number;
 }
 
