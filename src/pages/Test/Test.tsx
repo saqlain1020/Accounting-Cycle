@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import useSettings from "src/hooks/useSettings";
 import useNotify from "src/hooks/useNotify";
 import DayNightToggle from "react-day-and-night-toggle";
+import { signOut, auth } from "src/config/firebase";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -40,6 +41,9 @@ const Test: React.FC<Props> = () => {
       </Button>
       <Button onClick={() => dismissNotifyAll()} variant="contained" color="secondary">
         Dismiss All
+      </Button>
+      <Button onClick={() => signOut(auth)} variant="contained" color="secondary">
+        Sign Out
       </Button>
 
       <DayNightToggle onChange={toggleTheme} checked={themeMode === "dark"} size={25} />

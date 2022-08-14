@@ -6,6 +6,7 @@ export interface StateInterface {
 export interface EntryName {
   name: string;
   type: EntryType;
+  id?: string;
 }
 
 export interface Entry {
@@ -14,7 +15,7 @@ export interface Entry {
   debit: number;
   credit: number;
   date?: Date | string;
-  id?: string | number;
+  id?: string;
 }
 
 export interface UpdateData {
@@ -22,7 +23,7 @@ export interface UpdateData {
   debit?: number;
   credit?: number;
   date?: Date;
-  id: number;
+  id: string;
   type?: EntryType;
 }
 

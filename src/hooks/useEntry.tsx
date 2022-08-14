@@ -1,7 +1,14 @@
-import React from "react";
+import React, { startTransition, useTransition } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "src/state";
-import { addEntry, removeEntry, updateEntry, addEntryName, removeEntryName } from "src/state/entries/entriesReducer";
+import {
+  addEntry,
+  removeEntry,
+  updateEntry,
+  addEntryName,
+  removeEntryName,
+  updateEntryState,
+} from "src/state/entries/entriesReducer";
 import {
   addAdjustingEntry,
   removeAdjustingEntry,
@@ -30,11 +37,6 @@ const useEntry = () => {
   const adjustingEntries = useSelector((state: RootState) => state.adjustingEntries.entries);
   const entryNames = useSelector((state: RootState) => state.entries.entryNames);
   const dispatch = useAppDispatch();
-  const modifiedEntries = React.useMemo(() => entries.map((item, i) => ({ ...item, id: i })), [entries]);
-  const modifiedAdjustingEntries = React.useMemo(
-    () => adjustingEntries.map((item, i) => ({ ...item, id: i })),
-    [adjustingEntries]
-  );
   const { notifyError } = useNotify();
 
   const totalDebit = React.useMemo(() => {
@@ -63,23 +65,25 @@ const useEntry = () => {
     dispatch(addEntry(entry));
   };
 
-  const deleteEntry = (index: number) => {
-    dispatch(removeEntry(index));
+  const deleteEntry = (id: string) => {
+    dispatch(removeEntry(id));
   };
 
-  const updateDescription = (index: number, description: string) => {
+  const updateDescription = (id: string, description: string) => {
     const type = entryNames.find((ele) => ele.name === description)?.type;
-    if (type) dispatch(updateEntry({ id: index, description, type }));
-    else dispatch(updateEntry({ id: index, description }));
+    if (type) dispatch(updateEntry({ id, description, type }));
+    else dispatch(updateEntry({ id, description }));
   };
-  const updateDebit = (index: number, debit: number) => {
-    dispatch(updateEntry({ id: index, debit }));
+
+  const updateDebit = (id: string, debit: number) => {
+    dispatch(updateEntry({ id, debit }));
   };
-  const updateCredit = (index: number, credit: number) => {
-    dispatch(updateEntry({ id: index, credit }));
+
+  const updateCredit = (id: string, credit: number) => {
+    dispatch(updateEntry({ id, credit }));
   };
-  const updateDate = (index: number, date: Date) => {
-    dispatch(updateEntry({ id: index, date }));
+  const updateDate = (id: string, date: Date) => {
+    dispatch(updateEntry({ id, date }));
   };
 
   const _addEntryName = (str: string, type: EntryType) => {
@@ -115,20 +119,20 @@ const useEntry = () => {
     dispatch(addAdjustingEntry(entry));
   };
 
-  const _removeAdjustingEntry = (index: number) => {
-    dispatch(removeAdjustingEntry(index));
+  const _removeAdjustingEntry = (id: string) => {
+    dispatch(removeAdjustingEntry(id));
   };
 
-  const updateAdjustingDate = (index: number, date: Date) => {
-    dispatch(updateAdjustingEntry({ id: index, date }));
+  const updateAdjustingDate = (id: string, date: Date) => {
+    dispatch(updateAdjustingEntry({ id, date }));
   };
   const _updateAdjustingEntry = (data: UpdateAdjustingData) => {
     dispatch(updateAdjustingEntry({ ...data }));
   };
 
   return {
-    entries: modifiedEntries,
-    adjustingEntries: modifiedAdjustingEntries,
+    entries,
+    adjustingEntries,
     add,
     deleteEntry,
     ENTRY_TYPE,

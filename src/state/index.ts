@@ -1,10 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import userReducer from "./user/userReducer";
 import { useDispatch } from "react-redux";
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import settingsReducer from "./settings/settingsReducer";
-import accountsReducer from "./accounts/accountsReducer";
+import userReducer from "./accounts/accountsReducer";
 import entriesReducer from "./entries/entriesReducer";
 import adjustingEntriesReducer from "./adjustingEntries/adjustingEntriesReducer";
 
@@ -12,13 +11,12 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage,
-  whitelist: ["settings", "entries","adjustingEntries"],
+  whitelist: ["settings", "entries", "adjustingEntries", "user"],
 };
 
 const rootReducer = combineReducers({
-  user: userReducer,
   settings: settingsReducer,
-  accounts: accountsReducer,
+  user: userReducer,
   entries: entriesReducer,
   adjustingEntries: adjustingEntriesReducer,
 });

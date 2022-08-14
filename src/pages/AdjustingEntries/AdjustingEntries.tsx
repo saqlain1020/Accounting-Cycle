@@ -85,7 +85,7 @@ const AdjustingEntries: React.FC<IProps> = () => {
               <TableBody>
                 <TableRow>
                   <TableCell rowSpan={2}>
-                    <IconButton color="error" onClick={() => removeAdjustingEntry(entry.id)}>
+                    <IconButton color="error" onClick={() => removeAdjustingEntry(entry.id!)}>
                       <RemoveCircleOutlineIcon />
                     </IconButton>
                   </TableCell>
@@ -96,7 +96,7 @@ const AdjustingEntries: React.FC<IProps> = () => {
                       type="date"
                       className={classes.input}
                       value={moment(entry.date).format("yyyy-MM-DD")}
-                      onChange={(e) => updateAdjustingDate(entry.id, new Date(e.target.value))}
+                      onChange={(e) => updateAdjustingDate(entry.id!, new Date(e.target.value))}
                     />
                   </TableCell>
                   <TableCell width="50%">
@@ -106,7 +106,7 @@ const AdjustingEntries: React.FC<IProps> = () => {
                       fullWidth
                       value={entry.name1}
                       className={classes.input}
-                      onChange={(e) => updateAdjustingEntry({ id: entry.id, name1: e.target.value })}
+                      onChange={(e) => updateAdjustingEntry({ id: entry.id!, name1: e.target.value })}
                     >
                       {entryNames.map((item, i) => (
                         <MenuItem key={uuid()} value={item.name}>
@@ -122,7 +122,7 @@ const AdjustingEntries: React.FC<IProps> = () => {
                       type="number"
                       value={entry.debit}
                       className={classes.input}
-                      onChange={(e) => updateAdjustingEntry({ id: entry.id, debit: Number(e.target.value) })}
+                      onChange={(e) => updateAdjustingEntry({ id: entry.id!, debit: Number(e.target.value) })}
                     />
                   </TableCell>
                   <TableCell></TableCell>
@@ -135,7 +135,7 @@ const AdjustingEntries: React.FC<IProps> = () => {
                       fullWidth
                       value={entry.name2}
                       className={classes.input}
-                      onChange={(e) => updateAdjustingEntry({ id: entry.id, name2: e.target.value })}
+                      onChange={(e) => updateAdjustingEntry({ id: entry.id!, name2: e.target.value })}
                     >
                       {entryNames.map((item, i) => (
                         <MenuItem key={uuid()} value={item.name}>
@@ -152,7 +152,7 @@ const AdjustingEntries: React.FC<IProps> = () => {
                       type="number"
                       value={entry.credit}
                       className={classes.input}
-                      onChange={(e) => updateAdjustingEntry({ id: entry.id, credit: Number(e.target.value) })}
+                      onChange={(e) => updateAdjustingEntry({ id: entry.id!, credit: Number(e.target.value) })}
                     />
                   </TableCell>
                 </TableRow>
@@ -166,7 +166,7 @@ const AdjustingEntries: React.FC<IProps> = () => {
                       fullWidth
                       rows={1}
                       size="small"
-                      onChange={(e) => updateAdjustingEntry({ id: entry.id, description: e.target.value })}
+                      onChange={(e) => updateAdjustingEntry({ id: entry.id!, description: e.target.value })}
                     />
                   </TableCell>
                 </TableRow>

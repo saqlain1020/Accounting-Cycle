@@ -68,7 +68,7 @@ const TrialBalance: React.FC<IProps> = () => {
               {entries.map((entry, i) => (
                 <TableRow key={i}>
                   <TableCell width={50}>
-                    <IconButton color="error" onClick={() => deleteEntry(entry.id)}>
+                    <IconButton color="error" onClick={() => deleteEntry(entry.id!)}>
                       <RemoveCircleOutlineIcon />
                     </IconButton>
                   </TableCell>
@@ -78,7 +78,7 @@ const TrialBalance: React.FC<IProps> = () => {
                       size="small"
                       fullWidth
                       value={entry.description}
-                      onChange={(e) => updateDescription(entry.id, e.target.value)}
+                      onChange={(e) => updateDescription(entry.id!, e.target.value)}
                     >
                       <MenuItem value={entry.description} disabled>
                         {entry.description}
@@ -98,7 +98,7 @@ const TrialBalance: React.FC<IProps> = () => {
                       fullWidth
                       type="number"
                       value={entry.debit === 0 ? "" : entry.debit}
-                      onChange={(e) => updateDebit(entry.id, Number(e.target.value))}
+                      onChange={(e) => updateDebit(entry.id!, Number(e.target.value))}
                     />
                   </TableCell>
                   <TableCell>
@@ -107,7 +107,7 @@ const TrialBalance: React.FC<IProps> = () => {
                       fullWidth
                       type="number"
                       value={entry.credit === 0 ? "" : entry.credit}
-                      onChange={(e) => updateCredit(entry.id, Number(e.target.value))}
+                      onChange={(e) => updateCredit(entry.id!, Number(e.target.value))}
                     />
                   </TableCell>
                 </TableRow>
