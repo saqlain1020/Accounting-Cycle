@@ -11,7 +11,7 @@ interface Props {}
 const Home: React.FC<Props> = () => {
   const classes = useStyles();
 
-  return <div className={classes.root}>HOe</div>;
+  return <div className={classes.root}>Select any link from the drawer</div>;
 };
 
 export default Home;

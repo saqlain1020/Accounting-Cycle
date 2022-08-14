@@ -14,7 +14,7 @@ export interface Entry {
   type: EntryType;
   debit: number;
   credit: number;
-  date?: Date | string;
+  date?: string;
   id?: string;
 }
 
@@ -22,7 +22,7 @@ export interface UpdateData {
   description?: string;
   debit?: number;
   credit?: number;
-  date?: Date;
+  date?: string;
   id: string;
   type?: EntryType;
 }

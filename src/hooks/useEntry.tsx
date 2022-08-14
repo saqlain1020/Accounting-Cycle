@@ -97,7 +97,7 @@ const useEntry = () => {
   const updateCreditState = (id: string, credit: number) => {
     dispatch(updateEntryState({ id, credit }));
   };
-  const updateDate = (id: string, date: Date) => {
+  const updateDate = (id: string, date: string) => {
     dispatch(updateEntry({ id, date }));
   };
 
@@ -129,7 +129,7 @@ const useEntry = () => {
       description: "Entry Description",
       name1: entryNames[0].name,
       name2: entryNames[1].name,
-      date: new Date(),
+      date: new Date().toString(),
     };
     dispatch(addAdjustingEntry(entry));
   };
@@ -138,7 +138,7 @@ const useEntry = () => {
     dispatch(removeAdjustingEntry(id));
   };
 
-  const updateAdjustingDate = (id: string, date: Date) => {
+  const updateAdjustingDate = (id: string, date: string) => {
     dispatch(updateAdjustingEntry({ id, date }));
   };
   const _updateAdjustingEntry = (data: UpdateAdjustingData) => {

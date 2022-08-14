@@ -97,8 +97,8 @@ const AdjustingEntries: React.FC<IProps> = () => {
                       fullWidth
                       type="date"
                       className={classes.input}
-                      value={moment(entry.date).format("yyyy-MM-DD")}
-                      onChange={(e) => updateAdjustingDate(entry.id!, new Date(e.target.value))}
+                      value={moment(new Date(entry.date!)).format("yyyy-MM-DD")}
+                      onChange={(e) => updateAdjustingDate(entry.id!, e.target.value)}
                     />
                   </TableCell>
                   <TableCell width="50%">

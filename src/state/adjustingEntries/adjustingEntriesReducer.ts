@@ -11,6 +11,8 @@ import {
   where,
   query,
   getDocs,
+  Timestamp,
+  orderBy,
 } from "src/config/firebase";
 
 const initialState: StateInterface = {
@@ -80,6 +82,7 @@ export const addAdjustingEntry = createAsyncThunk(
     addDoc(collection(db, CollectionName.AdjustingEntries), {
       ...entry,
       user: uid,
+      createdAt: Timestamp.now(),
     }).then((res) => {
       thunkAPI.dispatch(addAdjustingEntryState({ ...entry, id: res.id }));
     });
@@ -112,7 +115,7 @@ export const updateAdjustingEntry = createAsyncThunk(
 export const fetchAdjustingEntries = createAsyncThunk("adjustingEntries/fetchAdjustingEntries", async (_, thunkAPI) => {
   let uid = (thunkAPI.getState() as any).user.user.uid;
   if (!uid) return;
-  let q = query(collection(db, CollectionName.AdjustingEntries), where("user", "==", uid));
+  let q = query(collection(db, CollectionName.AdjustingEntries), where("user", "==", uid), orderBy("createdAt"));
   let querySnapshot = await getDocs(q);
   thunkAPI.dispatch(clearAdjustingEntries());
   querySnapshot.forEach((doc) => {

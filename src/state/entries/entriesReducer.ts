@@ -11,6 +11,9 @@ import {
   query,
   where,
   setDoc,
+  auth,
+  Timestamp,
+  orderBy,
 } from "src/config/firebase";
 import { RootState } from "..";
 
@@ -56,16 +59,20 @@ const initialState: StateInterface = {
 export const fetchEntries = createAsyncThunk("entries/fetchEntries", async (_, thunkAPI) => {
   let uid = (thunkAPI.getState() as any).user.user.uid;
   if (!uid) return;
-  let q = query(collection(db, CollectionName.Entries), where("user", "==", uid));
-  let querySnapshot = await getDocs(q);
-  thunkAPI.dispatch(clearEntries());
-  querySnapshot.forEach((doc) => {
-    let data = {
-      ...(doc.data() as Entry),
-      id: doc.id,
-    };
-    thunkAPI.dispatch(addEntryState(data));
-  });
+  try {
+    let q = query(collection(db, CollectionName.Entries), where("user", "==", uid), orderBy("createdAt"));
+    let querySnapshot = await getDocs(q);
+    thunkAPI.dispatch(clearEntries());
+    querySnapshot.forEach((doc) => {
+      let data = {
+        ...(doc.data() as Entry),
+        id: doc.id,
+      };
+      thunkAPI.dispatch(addEntryState(data));
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export const addEntry = createAsyncThunk("entries/addEntry", async (entry: Entry, thunkAPI) => {
@@ -74,6 +81,7 @@ export const addEntry = createAsyncThunk("entries/addEntry", async (entry: Entry
   addDoc(collection(db, CollectionName.Entries), {
     ...entry,
     user: uid,
+    createdAt: Timestamp.now(),
   }).then((res) => {
     thunkAPI.dispatch(addEntryState({ ...entry, id: res.id }));
   });
@@ -89,8 +97,7 @@ export const removeEntry = createAsyncThunk("entries/removeEntry", async (id: st
 
 export const updateEntry = createAsyncThunk("entries/updateEntry", async (data: UpdateData, thunkAPI) => {
   let uid = (thunkAPI.getState() as any).user.user.uid;
-  console.log(data)
-  if (!uid) return;
+  if (!uid && auth?.currentUser?.uid) return;
   setDoc(doc(db, CollectionName.Entries, data.id), data, { merge: true }).then(() => {
     thunkAPI.dispatch(updateEntryState(data));
   });
@@ -102,6 +109,7 @@ export const addEntryName = createAsyncThunk("entries/addEntryName", async (entr
   addDoc(collection(db, CollectionName.EntryNames), {
     ...entryName,
     user: uid,
+    createdAt: Timestamp.now(),
   }).then((res) => {
     thunkAPI.dispatch(addEntryNameState({ ...entryName, id: res.id }));
   });
@@ -120,7 +128,7 @@ export const removeEntryName = createAsyncThunk("entries/removeEntryName", async
 export const fetchEntryName = createAsyncThunk("entries/fetchEntryName", async (_, thunkAPI) => {
   let uid = (thunkAPI.getState() as any).user.user.uid;
   if (!uid) return;
-  let q = query(collection(db, CollectionName.EntryNames), where("user", "==", uid));
+  let q = query(collection(db, CollectionName.EntryNames), where("user", "==", uid), orderBy("createdAt"));
   let querySnapshot = await getDocs(q);
   thunkAPI.dispatch(clearEntryNames());
   querySnapshot.forEach((doc) => {

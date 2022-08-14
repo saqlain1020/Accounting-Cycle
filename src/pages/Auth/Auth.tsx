@@ -3,6 +3,7 @@ import { makeStyles } from "@mui/styles";
 import { Button, Theme } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { googleProvider, auth, signInWithPopup, GoogleAuthProvider } from "src/config/firebase";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -17,6 +18,7 @@ interface IProps {}
 
 const Auth: React.FC<IProps> = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
 
   const handleClick = () => {
     signInWithPopup(auth, googleProvider)
@@ -27,6 +29,7 @@ const Auth: React.FC<IProps> = () => {
         // The signed-in user info.
         const user = result.user;
         console.log(token, user);
+        navigate("/");
       })
       .catch((error) => {
         // Handle Errors here.

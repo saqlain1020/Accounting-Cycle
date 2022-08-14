@@ -25,6 +25,8 @@ import { NavLink } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material";
 import clsx from "clsx";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import { signOut, auth } from "src/config/firebase";
 
 const drawerWidth = 240;
 
@@ -119,6 +121,9 @@ export default function PersistentDrawerLeft({ children }: { children: React.Rea
             <Typography variant="h6" noWrap component="div">
               Accounts Hell
             </Typography>
+            <IconButton style={{ color: "white" }} onClick={() => signOut(auth)}>
+              <PowerSettingsNewIcon />
+            </IconButton>
             <ThemeSwitch />
           </div>
         </Toolbar>
