@@ -1,4 +1,4 @@
-import React, { startTransition, useTransition } from "react";
+import React, { startTransition, useCallback, useTransition } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "src/state";
 import {
@@ -13,6 +13,7 @@ import {
   addAdjustingEntry,
   removeAdjustingEntry,
   updateAdjustingEntry,
+  updateAdjustingEntryState,
 } from "src/state/adjustingEntries/adjustingEntriesReducer";
 import { Entry, EntryType } from "src/state/entries/types";
 import useNotify from "./useNotify";
@@ -75,12 +76,26 @@ const useEntry = () => {
     else dispatch(updateEntry({ id, description }));
   };
 
-  const updateDebit = (id: string, debit: number) => {
-    dispatch(updateEntry({ id, debit }));
-  };
+  const updateDebit = useCallback(
+    (id: string, debit: number) => {
+      dispatch(updateEntry({ id, debit }));
+    },
+    [dispatch]
+  );
+
+  const updateDebitState = useCallback(
+    (id: string, debit: number) => {
+      dispatch(updateEntryState({ id, debit }));
+    },
+    [dispatch]
+  );
 
   const updateCredit = (id: string, credit: number) => {
     dispatch(updateEntry({ id, credit }));
+  };
+
+  const updateCreditState = (id: string, credit: number) => {
+    dispatch(updateEntryState({ id, credit }));
   };
   const updateDate = (id: string, date: Date) => {
     dispatch(updateEntry({ id, date }));
@@ -128,6 +143,11 @@ const useEntry = () => {
   };
   const _updateAdjustingEntry = (data: UpdateAdjustingData) => {
     dispatch(updateAdjustingEntry({ ...data }));
+    dispatch(updateAdjustingEntryState({ ...data }));
+  };
+
+  const _updateAdjustingEntryState = (data: UpdateAdjustingData) => {
+    dispatch(updateAdjustingEntryState({ ...data }));
   };
 
   return {
@@ -138,8 +158,10 @@ const useEntry = () => {
     ENTRY_TYPE,
     updateDescription,
     updateCredit,
+    updateCreditState,
     updateDate,
     updateDebit,
+    updateDebitState,
     totalDebit,
     totalCredit,
     entryNames,
@@ -149,6 +171,7 @@ const useEntry = () => {
     removeAdjustingEntry: _removeAdjustingEntry,
     updateAdjustingDate,
     updateAdjustingEntry: _updateAdjustingEntry,
+    updateAdjustingEntryState: _updateAdjustingEntryState,
   };
 };
 

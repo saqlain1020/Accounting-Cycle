@@ -21,6 +21,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import useEntry from "src/hooks/useEntry";
 import { v4 as uuid } from "uuid";
 import moment from "moment";
+import DebounceTextField from "src/components/DebounceTextField/DebounceTextField";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -50,6 +51,7 @@ const AdjustingEntries: React.FC<IProps> = () => {
     updateAdjustingDate,
     addAdjustingEntry,
     removeAdjustingEntry,
+    updateAdjustingEntryState
   } = useEntry();
 
   return (
@@ -116,13 +118,14 @@ const AdjustingEntries: React.FC<IProps> = () => {
                     </TextField>
                   </TableCell>
                   <TableCell>
-                    <TextField
+                    <DebounceTextField
                       size="small"
                       fullWidth
                       type="number"
-                      value={entry.debit}
+                      value={entry.debit.toString()}
                       className={classes.input}
-                      onChange={(e) => updateAdjustingEntry({ id: entry.id!, debit: Number(e.target.value) })}
+                      callback={(value) => updateAdjustingEntry({ id: entry.id!, debit: Number(value) })}
+                      onChange={(e) => updateAdjustingEntryState({ id: entry.id!, debit: Number(e.target.value) })}
                     />
                   </TableCell>
                   <TableCell></TableCell>
@@ -146,27 +149,29 @@ const AdjustingEntries: React.FC<IProps> = () => {
                   </TableCell>
                   <TableCell></TableCell>
                   <TableCell>
-                    <TextField
+                    <DebounceTextField
                       size="small"
                       fullWidth
                       type="number"
-                      value={entry.credit}
+                      value={entry.credit.toString()}
                       className={classes.input}
-                      onChange={(e) => updateAdjustingEntry({ id: entry.id!, credit: Number(e.target.value) })}
+                      onChange={(e) => updateAdjustingEntryState({ id: entry.id!, credit: Number(e.target.value) })}
+                      callback={(value) => updateAdjustingEntry({ id: entry.id!, credit: Number(value) })}
                     />
                   </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell colSpan={5}>
                     <Divider />
-                    <TextField
+                    <DebounceTextField
                       value={entry.description}
                       className={classes.input}
                       multiline
                       fullWidth
                       rows={1}
                       size="small"
-                      onChange={(e) => updateAdjustingEntry({ id: entry.id!, description: e.target.value })}
+                      onChange={(e) => updateAdjustingEntryState({ id: entry.id!, description: e.target.value })}
+                      callback={(value) => updateAdjustingEntry({ id: entry.id!, description: value })}
                     />
                   </TableCell>
                 </TableRow>

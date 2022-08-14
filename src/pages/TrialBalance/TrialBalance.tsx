@@ -19,6 +19,7 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import useEntry from "src/hooks/useEntry";
 import { v4 as uuid } from "uuid";
+import DebounceTextField from "src/components/DebounceTextField/DebounceTextField";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -38,6 +39,8 @@ const TrialBalance: React.FC<IProps> = () => {
     updateCredit,
     totalCredit,
     totalDebit,
+    updateDebitState,
+    updateCreditState,
     updateDebit,
   } = useEntry();
 
@@ -93,21 +96,23 @@ const TrialBalance: React.FC<IProps> = () => {
                     </TextField>
                   </TableCell>
                   <TableCell>
-                    <TextField
+                    <DebounceTextField
                       size="small"
                       fullWidth
                       type="number"
-                      value={entry.debit === 0 ? "" : entry.debit}
-                      onChange={(e) => updateDebit(entry.id!, Number(e.target.value))}
+                      value={entry.debit === 0 ? "" : entry.debit.toString()}
+                      onChange={(e) => updateDebitState(entry.id!, Number(e.target.value))}
+                      callback={(value) => updateDebit(entry.id!, Number(value))}
                     />
                   </TableCell>
                   <TableCell>
-                    <TextField
+                    <DebounceTextField
                       size="small"
                       fullWidth
                       type="number"
-                      value={entry.credit === 0 ? "" : entry.credit}
-                      onChange={(e) => updateCredit(entry.id!, Number(e.target.value))}
+                      value={entry.credit === 0 ? "" : entry.credit.toString()}
+                      onChange={(e) => updateCreditState(entry.id!, Number(e.target.value))}
+                      callback={(value) => updateCredit(entry.id!, Number(value))}
                     />
                   </TableCell>
                 </TableRow>
