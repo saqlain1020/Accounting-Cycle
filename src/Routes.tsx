@@ -70,12 +70,9 @@ export const routesData = [
     name: "Balance Sheet",
     path: "/balance-sheet",
   },
-  {
-    name: "After Closing",
-    path: "/after-closing",
-  },
-  {
-    name: "Test",
-    path: "/test",
-  },
+ 
+  // {
+  //   name: "Test",
+  //   path: "/test",
+  // },
 ];

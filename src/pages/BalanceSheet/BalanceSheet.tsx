@@ -28,7 +28,7 @@ const BalanceSheet: React.FC<IProps> = () => {
     () => createBalanceSheetData(entries, adjustingEntries, entryNames),
     [entries, adjustingEntries, entryNames]
   );
-  const totalRows = React.useMemo(() => Math.max(assets.length, liabilities.length + 1), [assets, liabilities]);
+  const totalRows = React.useMemo(() => Math.max(assets.length, liabilities.length + 2), [assets, liabilities]);
 
   return (
     <div className={classes.root}>
