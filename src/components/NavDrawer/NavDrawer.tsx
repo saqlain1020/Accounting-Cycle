@@ -119,7 +119,7 @@ export default function PersistentDrawerLeft({ children }: { children: React.Rea
           </IconButton>
           <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
             <Typography variant="h6" noWrap component="div">
-              Accounts Hell
+              Accounts
             </Typography>
             <IconButton style={{ color: "white" }} onClick={() => signOut(auth)}>
               <PowerSettingsNewIcon />
